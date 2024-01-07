@@ -17,18 +17,18 @@ pipeline {
         }
       }
       steps {
-        build-docker("einarsngalejs/api-tests-base", "Dockerfile.base")
+        build_docker("einarsngalejs/api-tests-base", "Dockerfile.base")
       }
     }
     stage('docker-build-test-runner') {
       steps {
-        build-docker("einarsngalejs/api-tests-runner", "Dockerfile.runner")
+        build_docker("einarsngalejs/api-tests-runner", "Dockerfile.runner")
       }
     }
   }
 }
 
-def build-docker(String tag, String file) {
+def build_docker(String tag, String file) {
   echo "Building $tag image for api-tests"
   sh "docker build --no-cache -t $tag . -f $file"
   sh "docker login -u $DOCKER_USER -p \"$DOCKER_PASS\""
