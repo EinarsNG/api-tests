@@ -17,19 +17,20 @@ pipeline {
         }
       }
       steps {
-        echo 'Building base image for api-tests'
-        sh "docker build --no-cache -t einarsngalejs/api-tests-base . -f Dockerfile.base"
-        sh "docker login -u $DOCKER_USER -p \"$DOCKER_PASS\""
-        sh "docker push einarsngalejs/api-tests-base:latest"
+        build-docker("einarsngalejs/api-tests-base", "Dockerfile.base")
       }
     }
     stage('docker-build-test-runner') {
       steps {
-        echo 'Building runner image for api-tests'
-        sh "docker build --no-cache -t einarsngalejs/api-tests-runner . -f Dockerfile.runner"
-        sh "docker login -u $DOCKER_USER -p \"$DOCKER_PASS\""
-        sh "docker push einarsngalejs/api-tests-runner:latest"
+        build-docker("einarsngalejs/api-tests-runner", "Dockerfile.runner")
       }
     }
   }
+}
+
+def build-docker(String tag, String file) {
+  echo "Building $tag image for api-tests"
+  sh "docker build --no-cache -t $tag . -f $file"
+  sh "docker login -u $DOCKER_USER -p \"$DOCKER_PASS\""
+  sh "docker push $tag:latest"
 }
