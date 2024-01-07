@@ -1,4 +1,4 @@
-FROM mtararujs/api-tests-base
+FROM einarsngalejs/api-tests-base
 
 COPY features features
 COPY smoke_tests.sh smoke_tests.sh

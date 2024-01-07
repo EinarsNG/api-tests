@@ -2,9 +2,16 @@ pipeline {
     agent any
 
     stages {
-        stage('Hello') {
+        stage('docker-build-test-base') {
             steps {
-                echo 'Hello World'
+                echo 'Building base image for api-tests'
+                sh "docker build -t einarsngalejs/api-tests-base . -f Dockerfile.base"
+            }
+        }
+        stage('docker-build-test-runner') {
+            steps {
+                echo 'Building runner image for api-tests'
+                sh "docker build -t einarsngalejs/api-tests-runner . -f Dockerfile.runner"
             }
         }
     }
